@@ -1,0 +1,1 @@
+# wig30-analiza
