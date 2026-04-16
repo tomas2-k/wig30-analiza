@@ -2,14 +2,21 @@ name: WIG30 Daily Analysis
 
 on:
   schedule:
+    # Codziennie pon-pt o 18:30 czasu polskiego (16:30 UTC)
     - cron: '30 16 * * 1-5'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -19,14 +26,18 @@ jobs:
       - name: Install dependencies
         run: pip install yfinance pandas numpy
 
+      - name: Create data folder
+        run: mkdir -p data
+
       - name: Run analysis
-        run: |
-          python deep_analysis.py
-          python inject_data.py
+        run: python deep_analysis.py
+
+      - name: Inject data into HTML
+        run: python inject_data.py
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
-          publish_branch: gh-pages
+          exclude_assets: '.github,*.py,*.txt,*.md,data,index_template.html'
