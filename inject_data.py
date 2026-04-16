@@ -27,7 +27,7 @@ for i, stock in enumerate(data['all_stocks']):
 data_json = json.dumps(data, ensure_ascii=False, separators=(',', ':'))
 
 # Read HTML template
-with open('index_template.html', 'r', encoding='utf-8') as f:
+with open('index.html', 'r', encoding='utf-8') as f:
     html = f.read()
 
 # Replace placeholder
