@@ -471,7 +471,7 @@ def main():
         'top_picks': results[:5],
     }
     
-    with open('/home/ubuntu/wig30_data/deep_analysis.json', 'w', encoding='utf-8') as f:
+    with open('data/deep_analysis.json', 'w', encoding='utf-8') as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
     
     print(f"\nWyniki zapisane do deep_analysis.json")
