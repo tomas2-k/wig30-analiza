@@ -2,7 +2,7 @@ name: WIG30 Daily Analysis
 
 on:
   schedule:
-    - cron: '30 8 * * 1-5'   # 10:30 czasu polskiego (otwarcie)
+    - cron: '30 7 * * 1-5'   # 10:30 czasu polskiego (otwarcie)
     - cron: '00 11 * * 1-5'  # 13:00 czasu polskiego (południe)
     - cron: '30 15 * * 1-5'  # 17:30 czasu polskiego (po zamknięciu)
   workflow_dispatch:
