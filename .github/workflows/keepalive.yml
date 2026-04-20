@@ -1,0 +1,24 @@
+name: Keepalive
+
+on:
+  schedule:
+    - cron: '0 6 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Keepalive commit
+        run: |
+          git config user.name "WIG30 Bot"
+          git config user.email "actions@github.com"
+          echo "$(date)" > .keepalive
+          git add .keepalive
+          git commit -m "keepalive $(date '+%d.%m.%Y')" || echo "nothing to commit"
+          git push
