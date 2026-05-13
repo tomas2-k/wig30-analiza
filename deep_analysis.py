@@ -123,7 +123,7 @@ def analyze_stock_deep(ticker_wa, info):
         stoch_k, stoch_d = calculate_stochastic(high, low, close)
         current_stoch_k = stoch_k.iloc[-1]
         current_stoch_d = stoch_d.iloc[-1]
-        stoch_rising = current_stoch_k > stoch_d
+        stoch_rising = bool(current_stoch_k > current_stoch_d)
 
         # Volume
         avg_volume_20d = volume.iloc[-21:-1].mean()
