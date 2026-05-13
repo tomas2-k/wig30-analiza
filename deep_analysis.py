@@ -41,6 +41,9 @@ WIG30_STOCKS = {
     'EUR.WA': {'name': 'Eurocash', 'sector': 'Handel detaliczny', 'ticker': 'EUR'},
     'ATT.WA': {'name': 'Grupa Azoty', 'sector': 'Chemia', 'ticker': 'ATT'},
     'MDVP.WA': {'name': 'Modivo (CCC)', 'sector': 'Handel detaliczny', 'ticker': 'MDV'},
+    'PCO.WA': {'name': 'Pepco', 'sector': 'Handel detaliczny', 'ticker': 'PCO'},
+    'TXT.WA': {'name': 'Text', 'sector': 'Technologia', 'ticker': 'TXT'},
+    'XTB.WA': {'name': 'XTB', 'sector': 'Finanse', 'ticker': 'XTB'},
 }
 
 def calculate_rsi(prices, period=14):
