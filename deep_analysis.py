@@ -33,7 +33,6 @@ WIG30_STOCKS = {
     'ALR.WA': {'name': 'Alior Bank', 'sector': 'Finanse', 'ticker': 'ALR'},
     'JSW.WA': {'name': 'JSW', 'sector': 'Górnictwo', 'ticker': 'JSW'},
     'KTY.WA': {'name': 'Grupa Kęty', 'sector': 'Przemysł', 'ticker': 'KTY'},
-    'CCC.WA': {'name': 'CCC', 'sector': 'Handel detaliczny', 'ticker': 'CCC'},
     'TPE.WA': {'name': 'Tauron', 'sector': 'Energetyka', 'ticker': 'TPE'},
     'ENA.WA': {'name': 'Enea', 'sector': 'Energetyka', 'ticker': 'ENA'},
     'BFT.WA': {'name': 'Benefit Systems', 'sector': 'Usługi', 'ticker': 'BFT'},
@@ -41,7 +40,7 @@ WIG30_STOCKS = {
     'LWB.WA': {'name': 'Bogdanka', 'sector': 'Górnictwo', 'ticker': 'LWB'},
     'EUR.WA': {'name': 'Eurocash', 'sector': 'Handel detaliczny', 'ticker': 'EUR'},
     'ATT.WA': {'name': 'Grupa Azoty', 'sector': 'Chemia', 'ticker': 'ATT'},
-    'MDV.WA': {'name': 'Modivo', 'sector': 'Handel detaliczny', 'ticker': 'MDV'},
+    'MDVP.WA': {'name': 'Modivo (CCC)', 'sector': 'Handel detaliczny', 'ticker': 'MDV'},
 }
 
 def calculate_rsi(prices, period=14):
