@@ -33,6 +33,7 @@ WIG30_STOCKS = {
     'ALR.WA': {'name': 'Alior Bank', 'sector': 'Finanse', 'ticker': 'ALR'},
     'JSW.WA': {'name': 'JSW', 'sector': 'Górnictwo', 'ticker': 'JSW'},
     'KTY.WA': {'name': 'Grupa Kęty', 'sector': 'Przemysł', 'ticker': 'KTY'},
+    'CCC.WA': {'name': 'CCC', 'sector': 'Handel detaliczny', 'ticker': 'CCC'},
     'TPE.WA': {'name': 'Tauron', 'sector': 'Energetyka', 'ticker': 'TPE'},
     'ENA.WA': {'name': 'Enea', 'sector': 'Energetyka', 'ticker': 'ENA'},
     'BFT.WA': {'name': 'Benefit Systems', 'sector': 'Usługi', 'ticker': 'BFT'},
@@ -40,10 +41,7 @@ WIG30_STOCKS = {
     'LWB.WA': {'name': 'Bogdanka', 'sector': 'Górnictwo', 'ticker': 'LWB'},
     'EUR.WA': {'name': 'Eurocash', 'sector': 'Handel detaliczny', 'ticker': 'EUR'},
     'ATT.WA': {'name': 'Grupa Azoty', 'sector': 'Chemia', 'ticker': 'ATT'},
-    'MDVP.WA': {'name': 'Modivo (CCC)', 'sector': 'Handel detaliczny', 'ticker': 'MDV'},
-    'PCO.WA': {'name': 'Pepco', 'sector': 'Handel detaliczny', 'ticker': 'PCO'},
-    'TXT.WA': {'name': 'Text', 'sector': 'Technologia', 'ticker': 'TXT'},
-    'XTB.WA': {'name': 'XTB', 'sector': 'Finanse', 'ticker': 'XTB'},
+    'MDV.WA': {'name': 'Modivo', 'sector': 'Handel detaliczny', 'ticker': 'MDV'},
 }
 
 def calculate_rsi(prices, period=14):
@@ -125,7 +123,7 @@ def analyze_stock_deep(ticker_wa, info):
         stoch_k, stoch_d = calculate_stochastic(high, low, close)
         current_stoch_k = stoch_k.iloc[-1]
         current_stoch_d = stoch_d.iloc[-1]
-        stoch_rising = bool(current_stoch_k > current_stoch_d)
+        stoch_rising = current_stoch_k > stoch_d
 
         # Volume
         avg_volume_20d = volume.iloc[-21:-1].mean()
@@ -171,16 +169,16 @@ def analyze_stock_deep(ticker_wa, info):
         risk_factors = []
 
         # --- TREND GŁÓWNY (najważniejszy filtr) ---
-        # Silny trend spadkowy = duże kary niezależnie od RSI
-        if price_change_5d < -8:
-            score -= 4
-            risk_factors.append(f"Silny trend spadkowy 5D ({price_change_5d:.1f}%) - unikaj łapania noża")
-        elif price_change_5d < -5:
-            score -= 2
+        # Łagodniejsze progi - jeden zły dzień nie zmienia rekomendacji
+        if price_change_5d < -6:
+            score -= 3
             risk_factors.append(f"Wyraźny trend spadkowy 5D ({price_change_5d:.1f}%)")
-        elif price_change_5d > 5:
+        elif price_change_5d < -3:
+            score -= 1
+            risk_factors.append(f"Lekka korekta 5D ({price_change_5d:.1f}%)")
+        elif price_change_5d > 3:
             score += 1
-            signals.append(f"Silny trend wzrostowy 5D (+{price_change_5d:.1f}%)")
+            signals.append(f"Trend wzrostowy 5D (+{price_change_5d:.1f}%)")
 
         # --- RSI z potwierdzeniem ---
         # Niski RSI liczy się TYLKO jeśli RSI faktycznie odbija (rośnie)
@@ -245,7 +243,7 @@ def analyze_stock_deep(ticker_wa, info):
 
         # --- Bollinger Bands ---
         if bb_position < 5:
-            if rsi_rising or price_change_1d > 0:
+            if rsi_rising or price_change_3d > 0:
                 score += 3
                 signals.append(f"Cena przy dolnym BB ({bb_position:.0f}%) + sygnał odbicia")
             else:
@@ -301,7 +299,7 @@ def analyze_stock_deep(ticker_wa, info):
             signals.append("Golden Cross MA5/MA20 - sygnał kupna")
 
         # --- Wolumen jako potwierdzenie ---
-        if volume_ratio > 2.0 and (rsi_rising or price_change_1d > 0):
+        if volume_ratio > 2.0 and (rsi_rising or price_change_3d > 0):
             score += 3
             signals.append(f"Bardzo wysoki wolumen ({volume_ratio:.1f}x) + wzrost ceny - silne potwierdzenie")
         elif volume_ratio > 1.5:
